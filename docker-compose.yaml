@@ -6,7 +6,7 @@ services:
     container_name: beszel
     restart: unless-stopped
     ports:
-      - "3000:3000"  # Web界面端口
+      - "4000:3000"  # Web界面端口
     volumes:
       - ./beszel_data:/app/data
     environment:
