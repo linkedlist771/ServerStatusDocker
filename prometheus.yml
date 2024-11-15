@@ -1,11 +1,24 @@
-global:
-  scrape_interval: 15s
+version: "3.8"
 
-scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
+services:
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    hostname: ${HOSTNAME}
+    restart: unless-stopped
+    ports:
+      - "19999:19999" # Netdata 默认端口
+    volumes:
+      - netdata_config:/etc/netdata
+      - netdata_cache:/var/lib/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    environment:
+      - TZ=Asia/Shanghai # 设置时区，根据需要调整
 
-  - job_name: 'node'
-    static_configs:
-      - targets: ['node-exporter:9100']
+volumes:
+  netdata_config:
+  netdata_cache:
