@@ -1,18 +1,14 @@
 version: '3.8'
 
 services:
-  glances:
-    image: nicolargo/glances:latest
-    container_name: glances
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: beszel
     restart: unless-stopped
     ports:
-      - "61208:61208"  # Web界面端口
-      - "61209:61209"  # API端口
+      - "3000:3000"  # Web界面端口
     volumes:
-      - ./glances.conf:/glances.conf
+      - ./beszel_data:/app/data
     environment:
-      - GLANCES_OPT=-w
-      - GLANCES_ARGS=-q --export-mail
-
-volumes:
-  glances-data:
+      - BESZEL_ADMIN_USER=admin
+      - BESZEL_ADMIN_PASSWORD=admin
